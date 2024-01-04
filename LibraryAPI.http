@@ -1,0 +1,36 @@
+@LibraryAPI_HostAddress = https://localhost:7233
+
+GET {{LibraryAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{LibraryAPI_HostAddress}}/api/books
+Content-Type: application/json
+
+{
+   "bookId": 0,
+  "title": "test",
+  "isbn": "string",
+  "publicationYear": "2024-01-02",
+  "borrowed": true,
+  "borrowerId": 0,
+  "borrower": {
+    "borrowerId": 0,
+    "firstName": "string",
+    "lastName": "string",
+    "streetAddress": "string",
+    "city": "string",
+    "country": "string",
+    "phoneNumber": "string",
+    "email": "string",
+    "books": [
+      "string"
+    ]
+  },
+  "borrowDate": "2024-01-02",
+  "returnDate": "2024-01-02",
+  "rating": 0
+}
+
+###
