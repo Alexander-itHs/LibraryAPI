@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryAPI.Models;
+using LibraryAPI.DTOs;
 
 namespace LibraryAPI.Controllers
 {
@@ -75,8 +76,9 @@ namespace LibraryAPI.Controllers
         // POST: api/Borrowers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Borrower>> PostBorrower(Borrower borrower)
+        public async Task<ActionResult<Borrower>> PostBorrower(CreateBorrowerDTO createBorrowerDTO)
         {
+            var borrower = createBorrowerDTO.ToBorrower();
             _context.Borrower.Add(borrower);
             await _context.SaveChangesAsync();
 
