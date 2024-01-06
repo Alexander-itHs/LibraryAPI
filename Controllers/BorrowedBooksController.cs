@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryAPI.Models;
+using LibraryAPI.DTOs;
 
 namespace LibraryAPI.Controllers
 {
@@ -24,7 +25,7 @@ namespace LibraryAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BorrowedBook>>> GetBorrowedBook()
         {
-            return await _context.BorrowedBook.ToListAsync();
+            return await _context.BorrowedBook.Include(b => b.Book).Include(b => b.Borrower).ToListAsync();
         }
 
         // GET: api/BorrowedBooks/5
@@ -83,8 +84,38 @@ namespace LibraryAPI.Controllers
             return CreatedAtAction("GetBorrowedBook", new { id = borrowedBook.BorrowedBookId }, borrowedBook);
         }
 
-        // DELETE: api/BorrowedBooks/5
-        [HttpDelete("{id}")]
+		// POST: api/BorrowedBooks
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPost("borrowbook")]
+		public async Task<ActionResult<BorrowedBook>> BorrowBook(BorrowBookDTO borrowBookDTO)
+		{
+            Book? book = await _context.Books.FindAsync(borrowBookDTO.BookId);
+            Borrower? borrower = await _context.Borrower.FindAsync(borrowBookDTO.BorrowerId);
+            
+            if (book == null) 
+            {
+                return NotFound(borrowBookDTO.BookId);
+            }
+			if (borrower == null)
+			{
+				return NotFound(borrowBookDTO.BorrowerId);
+			}
+
+            var borrowedBook = new BorrowedBook
+            {
+                Book = book,
+                Borrower = borrower,
+                BorrowingDate = DateTime.Now
+            };
+
+            _context.BorrowedBook.Add(borrowedBook);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetBorrowedBook", new { Id = borrowedBook.BorrowedBookId }, borrowedBook);
+		}
+
+		// DELETE: api/BorrowedBooks/5
+		[HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBorrowedBook(int id)
         {
             var borrowedBook = await _context.BorrowedBook.FindAsync(id);

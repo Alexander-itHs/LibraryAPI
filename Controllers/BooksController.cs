@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryAPI.Models;
+using LibraryAPI.DTOs;
 
 namespace LibraryAPI.Controllers
 {
@@ -75,8 +76,9 @@ namespace LibraryAPI.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        public async Task<ActionResult<Book>> PostBook(CreateBookDTO createBookDTO)
         {
+            var book = createBookDTO.ToBook();
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 

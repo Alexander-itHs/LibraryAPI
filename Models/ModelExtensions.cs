@@ -4,6 +4,15 @@ namespace LibraryAPI.Models;
 
 public static class ModelExtensions
 {
+	public static Book ToBook(this CreateBookDTO createBookDTO)
+	{
+		return new Book
+		{
+			Title = createBookDTO.Title,
+			ISBN = createBookDTO.ISBN,
+			PublicationDate = createBookDTO.PublicationDate
+		};
+	}
 	public static Author ToAuthor(this CreateAuthorDTO createAuthorDTO)
 	{
 		return new Author

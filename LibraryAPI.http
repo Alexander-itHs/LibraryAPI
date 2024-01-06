@@ -5,6 +5,19 @@ Accept: application/json
 
 ###
 
+POST {{LibraryAPI_HostAddress}}/api/bookauthor
+Content-Type: application/json
+
+{
+  
+  "bookId": 2,
+  "authorId": 1
+}
+
+###
+
+
+
 POST {{LibraryAPI_HostAddress}}/api/books
 Content-Type: application/json
 
@@ -34,3 +47,4 @@ Content-Type: application/json
 }
 
 ###
+
