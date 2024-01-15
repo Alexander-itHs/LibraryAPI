@@ -16,57 +16,6 @@ namespace LibraryAPI.Controllers
             _context = context;
         }
 
-        // GET: api/BorrowedBooks
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<BorrowedBook>>> GetBorrowedBook()
-        {
-            return await _context.BorrowedBook.Include(b => b.Book).Include(b => b.Borrower).ToListAsync();
-        }
-
-        // GET: api/BorrowedBooks/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BorrowedBook>> GetBorrowedBook(int id)
-        {
-            var borrowedBook = await _context.BorrowedBook.FindAsync(id);
-
-            if (borrowedBook == null)
-            {
-                return NotFound();
-            }
-
-            return borrowedBook;
-        }
-
-        // PUT: api/BorrowedBooks/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBorrowedBook(int id, BorrowedBook borrowedBook)
-        {
-            if (id != borrowedBook.BorrowedBookId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(borrowedBook).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BorrowedBookExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
         // POST: api/BorrowedBooks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -109,7 +58,7 @@ namespace LibraryAPI.Controllers
 
             return CreatedAtAction("GetBorrowedBook", new { Id = borrowedBook.BorrowedBookId }, borrowedBook);
 		}
-        //// Patch: api/BorrowedBooks/5
+        // Patch: api/BorrowedBooks/5
         [HttpPatch("returnbook")]
         public async Task<IActionResult> ReturnBook(ReturnBookDTO returnBookDTO)
         {
@@ -135,22 +84,7 @@ namespace LibraryAPI.Controllers
             return NoContent();
         }
 
-        // DELETE: api/BorrowedBooks/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBorrowedBook(int id)
-        {
-            var borrowedBook = await _context.BorrowedBook.FindAsync(id);
-            if (borrowedBook == null)
-            {
-                return NotFound();
-            }
-
-            _context.BorrowedBook.Remove(borrowedBook);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-		
+        	
 
 		private bool BorrowedBookExists(int id)
         {

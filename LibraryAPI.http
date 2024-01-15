@@ -14,10 +14,10 @@ POST {{LibraryAPI_HostAddress}}/api/books
 Content-Type: application/json
 
 {
-  "title": "Harry Potter the Philosopher's Stone",
+  "title": "Harry Potter and the Philosopher's Stone",
   "isbn": "1111",
-  "publicationDate": "2024-01-11",
-  "availableCopies": 2
+  "publicationDate": "1997-01-11",
+  "copies": 2
 }
 
 ###
@@ -25,8 +25,8 @@ POST {{LibraryAPI_HostAddress}}/api/bookauthor
 Content-Type: application/json
 
 {
-  "bookId": 2,
-  "authorId": 2
+  "bookId": 1,
+  "authorId": 1
 }
 
 ###
@@ -51,7 +51,12 @@ GET {{LibraryAPI_HostAddress}}/api/books
 ###
 
 
-GET {{LibraryAPI_HostAddress}}/api/books/2
+GET {{LibraryAPI_HostAddress}}/api/books/1
+
+###
+
+
+GET {{LibraryAPI_HostAddress}}/api/books/search/Harry 
 
 ###
 
@@ -59,68 +64,8 @@ POST {{LibraryAPI_HostAddress}}/api/borrowedbooks/borrowbook
 Content-Type: application/json
 
 {
-  "bookId": 2,
-  "borrowerId": 2
-  
-}
-
-###
-
-
-DELETE {{LibraryAPI_HostAddress}}/api/authors/6
-
-###
-
-DELETE {{LibraryAPI_HostAddress}}/api/borrowedbooks/16
-
-###
-
-POST {{LibraryAPI_HostAddress}}/api/borrowers
-Content-Type: application/json
-
-{
-  "firstName": "A",
-  "lastName": "B",
-  "streetAddress": "C",
-  "city": "D",
-  "country": "E",
-  "phoneNumber": "F",
-  "email": "G"
-}
-
-###
-
-PUT {{LibraryAPI_HostAddress}}/api/borrowers/5
-Content-Type: application/json
-
-{
-  "borrowerId": 3,
-  "firstName": "string",
-  "lastName": "string",
-  "streetAddress": "string",
-  "city": "string",
-  "country": "string",
-  "phoneNumber": "string",
-  "email": "Z",
-  "books": [
-    {
-      "bookId": 7,
-      "title": "string",
-      "isbn": "string",
-      "publicationDate": "2024-01-11",
-      "availableCopies": 0
-    }
-  ]
-}
-
-###
-
-POST {{LibraryAPI_HostAddress}}/api/borrowedbooks/borrowbook
-Content-Type: application/json
-
-{
-  "bookId": 3,
-  "borrowerId": 4
+  "bookId": 1,
+  "borrowerId": 1
   
 }
 
@@ -131,10 +76,23 @@ PATCH {{LibraryAPI_HostAddress}}/api/borrowedbooks/returnbook
 Content-Type: application/json
 
 {
-  "bookId": 3,
-  "borrowerId": 4,
+  "bookId": 1,
+  "borrowerId": 1,
   "borrowerRating": 5
 }
 
 ###
 
+
+DELETE {{LibraryAPI_HostAddress}}/api/borrowers/0
+
+###
+
+
+DELETE {{LibraryAPI_HostAddress}}/api/books/0
+
+###
+
+DELETE {{LibraryAPI_HostAddress}}/api/authors/0
+
+###

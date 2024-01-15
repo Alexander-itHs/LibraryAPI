@@ -27,81 +27,8 @@ namespace LibraryAPI.Controllers
         {
             return await _context.Borrower.ToListAsync();
         }
-
-        // GET: api/Borrowers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Borrower>> GetBorrower(int id)
-        {
-            var borrower = await _context.Borrower.FindAsync(id);
-
-            if (borrower == null)
-            {
-                return NotFound();
-            }
-
-            return borrower;
-        }
-
-        // PUT: api/Borrowers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        //Change to CreateBorrowerDTO
-        //public async Task<IActionResult> PutBorrower(int id, CreateBorrowerDTO createBorrowerDTO)
-        //{
-        //    var borrower = createBorrowerDTO.ToBorrower();
-        //    if (id != borrower.BorrowerId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(borrower).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!BorrowerExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-        public async Task<IActionResult> PutBorrower(int id, Borrower borrower)
-        {
-            if (id != borrower.BorrowerId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(borrower).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BorrowerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
+                
+        
         // POST: api/Borrowers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

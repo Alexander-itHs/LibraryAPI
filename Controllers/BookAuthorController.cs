@@ -1,8 +1,6 @@
 ﻿using LibraryAPI.DTOs;
 using LibraryAPI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAPI.Controllers;
 
@@ -27,12 +25,14 @@ public class BookAuthorController : ControllerBase
             {
                 return NotFound(createBookAuthorDTO.BookId);
             }
+
 		var author = await _context.Author.FindAsync(createBookAuthorDTO.AuthorId);
 
-		if (author == null) 
-		{
-			return NotFound(createBookAuthorDTO.AuthorId);
-		}
+			if (author == null) 
+			{
+				return NotFound(createBookAuthorDTO.AuthorId);
+			}
+
 		book.Authors.Add(author);
 		
 		await _context.SaveChangesAsync();
