@@ -1,14 +1,26 @@
 using LibraryAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+
+builder.Services.AddControllers().AddJsonOptions(opt =>
+	opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 builder.Services.AddDbContext<LibraryContext>(opt =>
-	opt.UseSqlServer("Data Source=DESKTOP-VB5FELD\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False;Database=LibraryAPI;"));
+{
+	//var DbCon = builder.Configuration.GetConnectionString("DbCon");
+	var DbCon = builder.Configuration.GetConnectionString("TestDbCon");
+	opt.UseSqlServer(DbCon);
+	opt.LogTo(l => Debug.WriteLine(l)).EnableSensitiveDataLogging(true);
+});
+//
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

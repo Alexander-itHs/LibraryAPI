@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace LibraryAPI.Models;
+﻿namespace LibraryAPI.Models;
 
 public class Borrower
 {

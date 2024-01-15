@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using LibraryAPI.Models;
 
 namespace LibraryAPI.Models;
 
@@ -15,6 +14,6 @@ public class LibraryContext : DbContext
 
 	public DbSet<Borrower> Borrower { get; set; } = default!;
 
-public DbSet<LibraryAPI.Models.BorrowedBook> BorrowedBook { get; set; } = default!;
+	public DbSet<BorrowedBook> BorrowedBook { get; set; } = default!;
 
 }

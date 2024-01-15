@@ -1,49 +1,139 @@
 @LibraryAPI_HostAddress = https://localhost:7233
 
-GET {{LibraryAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
-
-POST {{LibraryAPI_HostAddress}}/api/bookauthor
+POST {{LibraryAPI_HostAddress}}/api/authors
 Content-Type: application/json
 
 {
-  
-  "bookId": 2,
-  "authorId": 1
+  "firstName": "J.K.",
+  "lastName": "Rowling"
 }
 
 ###
-
-
 
 POST {{LibraryAPI_HostAddress}}/api/books
 Content-Type: application/json
 
 {
-   "bookId": 0,
-  "title": "test",
-  "isbn": "string",
-  "publicationYear": "2024-01-02",
-  "borrowed": true,
-  "borrowerId": 0,
-  "borrower": {
-    "borrowerId": 0,
-    "firstName": "string",
-    "lastName": "string",
-    "streetAddress": "string",
-    "city": "string",
-    "country": "string",
-    "phoneNumber": "string",
-    "email": "string",
-    "books": [
-      "string"
-    ]
-  },
-  "borrowDate": "2024-01-02",
-  "returnDate": "2024-01-02",
-  "rating": 0
+  "title": "Harry Potter the Philosopher's Stone",
+  "isbn": "1111",
+  "publicationDate": "2024-01-11",
+  "availableCopies": 2
+}
+
+###
+POST {{LibraryAPI_HostAddress}}/api/bookauthor
+Content-Type: application/json
+
+{
+  "bookId": 2,
+  "authorId": 2
+}
+
+###
+
+POST {{LibraryAPI_HostAddress}}/api/borrowers
+Content-Type: application/json
+
+{
+  "firstName": "Ben",
+  "lastName": "Väst",
+  "streetAddress": "I",
+  "city": "U",
+  "country": "S",
+  "phoneNumber": "080",
+  "email": "it.se"
+}
+
+###
+
+GET {{LibraryAPI_HostAddress}}/api/books
+
+###
+
+
+GET {{LibraryAPI_HostAddress}}/api/books/2
+
+###
+
+POST {{LibraryAPI_HostAddress}}/api/borrowedbooks/borrowbook
+Content-Type: application/json
+
+{
+  "bookId": 2,
+  "borrowerId": 2
+  
+}
+
+###
+
+
+DELETE {{LibraryAPI_HostAddress}}/api/authors/6
+
+###
+
+DELETE {{LibraryAPI_HostAddress}}/api/borrowedbooks/16
+
+###
+
+POST {{LibraryAPI_HostAddress}}/api/borrowers
+Content-Type: application/json
+
+{
+  "firstName": "A",
+  "lastName": "B",
+  "streetAddress": "C",
+  "city": "D",
+  "country": "E",
+  "phoneNumber": "F",
+  "email": "G"
+}
+
+###
+
+PUT {{LibraryAPI_HostAddress}}/api/borrowers/5
+Content-Type: application/json
+
+{
+  "borrowerId": 3,
+  "firstName": "string",
+  "lastName": "string",
+  "streetAddress": "string",
+  "city": "string",
+  "country": "string",
+  "phoneNumber": "string",
+  "email": "Z",
+  "books": [
+    {
+      "bookId": 7,
+      "title": "string",
+      "isbn": "string",
+      "publicationDate": "2024-01-11",
+      "availableCopies": 0
+    }
+  ]
+}
+
+###
+
+POST {{LibraryAPI_HostAddress}}/api/borrowedbooks/borrowbook
+Content-Type: application/json
+
+{
+  "bookId": 3,
+  "borrowerId": 4
+  
+}
+
+###
+
+
+PATCH {{LibraryAPI_HostAddress}}/api/borrowedbooks/returnbook
+Content-Type: application/json
+
+{
+  "bookId": 3,
+  "borrowerId": 4,
+  "borrowerRating": 5
 }
 
 ###

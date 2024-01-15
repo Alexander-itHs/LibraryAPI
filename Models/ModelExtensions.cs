@@ -10,7 +10,8 @@ public static class ModelExtensions
 		{
 			Title = createBookDTO.Title,
 			ISBN = createBookDTO.ISBN,
-			PublicationDate = createBookDTO.PublicationDate
+			PublicationDate = createBookDTO.PublicationDate,
+			Copies = createBookDTO.Copies
 		};
 	}
 	public static Author ToAuthor(this CreateAuthorDTO createAuthorDTO)
@@ -34,4 +35,5 @@ public static class ModelExtensions
 			Email = createBorrowerDTO.Email
 		};
 	}
+
 }

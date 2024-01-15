@@ -7,4 +7,6 @@ public class Book
 	public string? ISBN { get; set; } = null!;
 	public DateOnly PublicationDate { get; set; }
 	public List<Author> Authors { get; } = new();
+	public int Copies { get; set; }
+
 }
