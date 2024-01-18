@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryAPI.Models;
 using LibraryAPI.DTOs;
+using LibraryAPI.Migrations;
 
 namespace LibraryAPI.Controllers
 {
@@ -23,15 +24,39 @@ namespace LibraryAPI.Controllers
 
         // GET: api/Borrowers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Borrower>>> GetBorrower()
+		public async Task<ActionResult<IEnumerable<GetBorrowerDTO>>> GetBorrowers()
         {
-            return await _context.Borrower.ToListAsync();
+            var borrowers = await _context.Borrower.Include(b => b.Books).ToListAsync();
+
+            List<GetBorrowerDTO> borrowerDTOsToReturn = new List<GetBorrowerDTO>();
+
+            foreach(var borrower in borrowers)
+            {
+                GetBorrowerDTO getBorrowerDTO = new GetBorrowerDTO()
+                {
+                    BorrowerId = borrower.BorrowerId,
+                    FirstName = borrower.FirstName,
+                    LastName = borrower.LastName,
+                    StreetAddress = borrower.StreetAddress,
+                    City = borrower.City,
+                    Country = borrower.Country,
+                    PhoneNumber = borrower.PhoneNumber,
+                    Email = borrower.Email,
+                    BorrowedBook = borrower.Books.ToBorrowBookDTOs()
+                };
+                borrowerDTOsToReturn.Add(getBorrowerDTO);
+            }
+            return borrowerDTOsToReturn;
         }
-                
-        
-        // POST: api/Borrowers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+		//public async Task<ActionResult<IEnumerable<Borrower>>> GetBorrower()
+		//{
+		//    return await _context.Borrower.ToListAsync();
+		//}
+
+
+		// POST: api/Borrowers
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPost]
         public async Task<ActionResult<Borrower>> PostBorrower(CreateBorrowerDTO createBorrowerDTO)
         {
             var borrower = createBorrowerDTO.ToBorrower();

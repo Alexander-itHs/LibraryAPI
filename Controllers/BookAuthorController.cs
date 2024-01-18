@@ -37,6 +37,7 @@ public class BookAuthorController : ControllerBase
 		
 		await _context.SaveChangesAsync();
 
-		return CreatedAtAction(nameof(BooksController.GetBook), new { id = book.BookId }, book);
+		return NoContent();
+	
 	}
 }

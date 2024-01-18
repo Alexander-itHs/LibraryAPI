@@ -3,82 +3,134 @@ using Microsoft.EntityFrameworkCore;
 using LibraryAPI.Models;
 using LibraryAPI.DTOs;
 
+
 namespace LibraryAPI.Controllers
 {
 	[Route("api/[controller]")]
-    [ApiController]
-    public class BooksController : ControllerBase
-    {
-        private readonly LibraryContext _context;
+	[ApiController]
+	public class BooksController : ControllerBase
+	{
+		private readonly LibraryContext _context;
 
-        public BooksController(LibraryContext context)
-        {
-            _context = context;
-        }
+		public BooksController(LibraryContext context)
+		{
+			_context = context;
+		}
 
-        // GET: api/Books
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
-        {
+		// GET: api/Books
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<GetBookDTO>>> GetBooks()
+		{
 			var books = await _context.Books.Include(b => b.Authors).ToListAsync();
-			return books;
-        }
 
-        // GET: api/Books/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
-        {
-            var book = await _context.Books.FindAsync(id);
+			List<GetBookDTO> bookDTOsToReturn = new List<GetBookDTO>();
 
-            if (book == null)
-            {
-                return NotFound();
-            }
+			foreach (var book in books)
+			{
+				GetBookDTO getBookDTO = new GetBookDTO()
+				{
+					BookId = book.BookId,
+					Title = book.Title,
+					ISBN = book.ISBN,
+					PublicationDate = book.PublicationDate,
+					Authors = book.Authors.ToAuthorDTOs(),
+					Copies = book.Copies
 
-            return book;
-        }
+				};
+				bookDTOsToReturn.Add(getBookDTO);
+			}	
+
+			return bookDTOsToReturn;
+		}
+		
+
+		// GET: api/Books/5
+		[HttpGet("{id}")]
+		public async Task<ActionResult<GetBookDTO>> GetBook(int id)
+		{
+			var book = await _context.Books.
+				Include(b => b.Authors).SingleOrDefaultAsync(b => b.BookId == id);
+
+			if (book == null)
+			{
+				return NotFound();
+			}
+			
+			GetBookDTO bookDTOToReturn = new()
+			{
+				BookId = book.BookId,
+				Title = book.Title,
+				ISBN = book.ISBN,
+				PublicationDate = book.PublicationDate,
+				Authors = book.Authors.ToAuthorDTOs(),
+				Copies = book.Copies
+			};
+
+			
+
+			return bookDTOToReturn;
+		}
 		// GET: api/Books/searchTerm
 		[HttpGet("search/{searchTerm}")]
-		public async Task<ActionResult<IEnumerable<Book>>> GetBookBySearch(string searchTerm)
+		public async Task<ActionResult<IEnumerable<GetBookDTO>>> FindBooksBySearchTerm(string searchTerm)
 		{
 			var books = await _context.Books
 				.Where(b => b.Title.Contains(searchTerm))
+				.Include(b => b.Authors)
 				.ToListAsync();
 
-			return books;
+			List<GetBookDTO> bookDTOsToReturn = new List<GetBookDTO>();
+
+			foreach (var book in books)
+			{
+				GetBookDTO getBookDTO = new GetBookDTO()
+				{
+					BookId = book.BookId,
+					Title = book.Title,
+					ISBN = book.ISBN,
+					PublicationDate = book.PublicationDate,
+					Authors = book.Authors.ToAuthorDTOs(),
+					Copies = book.Copies
+
+				};
+				bookDTOsToReturn.Add(getBookDTO);
+			}
+
+			return bookDTOsToReturn;
+
 		}
 
 		// POST: api/Books
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPost]
-        public async Task<ActionResult<Book>> PostBook(CreateBookDTO createBookDTO)
-        {
-            var book = createBookDTO.ToBook();
-            _context.Books.Add(book);
-            await _context.SaveChangesAsync();
+		public async Task<ActionResult<Book>> PostBook(CreateBookDTO createBookDTO)
+		{
+			var book = createBookDTO.ToBook();
+			_context.Books.Add(book);
+			await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetBook), new { id = book.BookId }, book);
-        }
+			return CreatedAtAction(nameof(GetBook), new { id = book.BookId }, book);
+		}
 
-        // DELETE: api/Books/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(int id)
-        {
-            var book = await _context.Books.FindAsync(id);
-            if (book == null)
-            {
-                return NotFound();
-            }
+		// DELETE: api/Books/5
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteBook(int id)
+		{
+			var book = await _context.Books.FindAsync(id);
+			if (book == null)
+			{
+				return NotFound();
+			}
 
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
+			_context.Books.Remove(book);
+			await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+			return NoContent();
+		}
 
-        private bool BookExists(int id)
-        {
-            return _context.Books.Any(e => e.BookId == id);
-        }
-    }
+		private bool BookExists(int id)
+		{
+			return _context.Books.Any(e => e.BookId == id);
+		}
+	}
 }

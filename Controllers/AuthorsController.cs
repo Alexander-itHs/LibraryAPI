@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using LibraryAPI.Models;
 using LibraryAPI.DTOs;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LibraryAPI.Controllers
 {
@@ -18,24 +19,39 @@ namespace LibraryAPI.Controllers
 
         // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Author>>> GetAuthor()
-        {
-            var authors = await _context.Author.Include(a => a.Books).ToListAsync();
-            return authors;
-        }
+		public async Task<ActionResult<IEnumerable<GetAuthorDTO>>> GetAuthors()
+		{
+			var authors = await _context.Author.Include(a => a.Books).ToListAsync();
+			
+            List<GetAuthorDTO> authorDTOsToReturn = new List<GetAuthorDTO>();
 
-        
+            foreach (var author in authors) 
+            {
+                GetAuthorDTO getAuthorDTO = new GetAuthorDTO()
+                {
+                    AuthorId = author.AuthorId,
+                    FirstName = author.FirstName,
+                    LastName = author.LastName,
+                    Books = author.Books.ToBookDTOs(),
+                };
+                authorDTOsToReturn.Add(getAuthorDTO);                
+            }
 
-        // POST: api/Authors
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+            return authorDTOsToReturn;
+		}
+
+
+
+		// POST: api/Authors
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPost]
         public async Task<ActionResult<Author>> PostAuthor(CreateAuthorDTO createAuthorDTO)
         {
             var author = createAuthorDTO.ToAuthor();
             _context.Author.Add(author);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAuthor), new { id = author.AuthorId }, author);
+            return CreatedAtAction(nameof(GetAuthors), new { id = author.AuthorId }, author);
         }
 
         // DELETE: api/Authors/5

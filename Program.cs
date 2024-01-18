@@ -9,12 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers().AddJsonOptions(opt =>
-	opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+	opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddDbContext<LibraryContext>(opt =>
 {
-	//var DbCon = builder.Configuration.GetConnectionString("DbCon");
-	var DbCon = builder.Configuration.GetConnectionString("TestDbCon");
+	var DbCon = builder.Configuration.GetConnectionString("DbCon");
 	opt.UseSqlServer(DbCon);
 	opt.LogTo(l => Debug.WriteLine(l)).EnableSensitiveDataLogging(true);
 });

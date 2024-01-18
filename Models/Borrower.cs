@@ -10,6 +10,6 @@ public class Borrower
 	public string Country { get; set; } = null!;
 	public string PhoneNumber { get; set; } = null!;
 	public string Email { get; set; } = null!;
-	public List<Book>? Books { get; set; }
+	public List<BorrowedBook> Books { get; } = new();
 
 }

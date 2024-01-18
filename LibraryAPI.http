@@ -9,6 +9,24 @@ Content-Type: application/json
 }
 
 ###
+POST {{LibraryAPI_HostAddress}}/api/authors
+Content-Type: application/json
+
+{
+  "firstName": "Peter",
+  "lastName": "Straub"
+}
+
+###
+POST {{LibraryAPI_HostAddress}}/api/authors
+Content-Type: application/json
+
+{
+  "firstName": "Stephen",
+  "lastName": "King"
+}
+
+###
 
 POST {{LibraryAPI_HostAddress}}/api/books
 Content-Type: application/json
@@ -21,12 +39,49 @@ Content-Type: application/json
 }
 
 ###
+POST {{LibraryAPI_HostAddress}}/api/books
+Content-Type: application/json
+
+{
+  "title": "The Talisman",
+  "isbn": "978-0-670-69199-9",
+  "publicationDate": "1984-11-07",
+  "copies": 1
+}
+
+###
+
+GET {{LibraryAPI_HostAddress}}/api/books
+
+###
+
+GET {{LibraryAPI_HostAddress}}/api/authors
+
+###
 POST {{LibraryAPI_HostAddress}}/api/bookauthor
 Content-Type: application/json
 
 {
-  "bookId": 1,
-  "authorId": 1
+  "bookId": 9,
+  "authorId": 4
+}
+
+###
+POST {{LibraryAPI_HostAddress}}/api/bookauthor
+Content-Type: application/json
+
+{
+  "bookId": 10,
+  "authorId": 6
+}
+
+###
+POST {{LibraryAPI_HostAddress}}/api/bookauthor
+Content-Type: application/json
+
+{
+  "bookId": 10,
+  "authorId": 5
 }
 
 ###
@@ -51,7 +106,7 @@ GET {{LibraryAPI_HostAddress}}/api/books
 ###
 
 
-GET {{LibraryAPI_HostAddress}}/api/books/1
+GET {{LibraryAPI_HostAddress}}/api/books/9
 
 ###
 
@@ -60,12 +115,16 @@ GET {{LibraryAPI_HostAddress}}/api/books/search/Harry
 
 ###
 
+GET {{LibraryAPI_HostAddress}}/api/borrowers
+
+###
+
 POST {{LibraryAPI_HostAddress}}/api/borrowedbooks/borrowbook
 Content-Type: application/json
 
 {
-  "bookId": 1,
-  "borrowerId": 1
+  "bookId": 9,
+  "borrowerId": 3
   
 }
 
@@ -89,10 +148,19 @@ DELETE {{LibraryAPI_HostAddress}}/api/borrowers/0
 ###
 
 
-DELETE {{LibraryAPI_HostAddress}}/api/books/0
+DELETE {{LibraryAPI_HostAddress}}/api/books/8
 
 ###
 
 DELETE {{LibraryAPI_HostAddress}}/api/authors/0
 
 ###
+
+
+
+
+
+
+
+
+
