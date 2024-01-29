@@ -21,7 +21,7 @@ namespace LibraryAPI.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<GetBookDTO>>> GetBooks()
 		{
-			var books = await _context.Books.Include(b => b.Authors).ToListAsync();
+			var books = await _context.Book.Include(b => b.Authors).ToListAsync();
 
 			List<GetBookDTO> bookDTOsToReturn = new List<GetBookDTO>();
 
@@ -35,7 +35,6 @@ namespace LibraryAPI.Controllers
 					PublicationDate = book.PublicationDate,
 					Authors = book.Authors.ToAuthorDTOs(),
 					Copies = book.Copies
-
 				};
 				bookDTOsToReturn.Add(getBookDTO);
 			}	
@@ -48,8 +47,8 @@ namespace LibraryAPI.Controllers
 		[HttpGet("{id}")]
 		public async Task<ActionResult<GetBookDTO>> GetBook(int id)
 		{
-			var book = await _context.Books.
-				Include(b => b.Authors).SingleOrDefaultAsync(b => b.BookId == id);
+			var book = await _context.Book
+				.Include(b => b.Authors).SingleOrDefaultAsync(b => b.BookId == id);
 
 			if (book == null)
 			{
@@ -64,9 +63,7 @@ namespace LibraryAPI.Controllers
 				PublicationDate = book.PublicationDate,
 				Authors = book.Authors.ToAuthorDTOs(),
 				Copies = book.Copies
-			};
-
-			
+			};		
 
 			return bookDTOToReturn;
 		}
@@ -74,7 +71,7 @@ namespace LibraryAPI.Controllers
 		[HttpGet("search/{searchTerm}")]
 		public async Task<ActionResult<IEnumerable<GetBookDTO>>> FindBooksBySearchTerm(string searchTerm)
 		{
-			var books = await _context.Books
+			var books = await _context.Book
 				.Where(b => b.Title.Contains(searchTerm))
 				.Include(b => b.Authors)
 				.ToListAsync();
@@ -97,7 +94,6 @@ namespace LibraryAPI.Controllers
 			}
 
 			return bookDTOsToReturn;
-
 		}
 
 		// POST: api/Books
@@ -106,7 +102,7 @@ namespace LibraryAPI.Controllers
 		public async Task<ActionResult<Book>> PostBook(CreateBookDTO createBookDTO)
 		{
 			var book = createBookDTO.ToBook();
-			_context.Books.Add(book);
+			_context.Book.Add(book);
 			await _context.SaveChangesAsync();
 
 			return CreatedAtAction(nameof(GetBook), new { id = book.BookId }, book);
@@ -116,13 +112,13 @@ namespace LibraryAPI.Controllers
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteBook(int id)
 		{
-			var book = await _context.Books.FindAsync(id);
+			var book = await _context.Book.FindAsync(id);
 			if (book == null)
 			{
 				return NotFound();
 			}
 
-			_context.Books.Remove(book);
+			_context.Book.Remove(book);
 			await _context.SaveChangesAsync();
 
 			return NoContent();
@@ -130,7 +126,7 @@ namespace LibraryAPI.Controllers
 
 		private bool BookExists(int id)
 		{
-			return _context.Books.Any(e => e.BookId == id);
+			return _context.Book.Any(e => e.BookId == id);
 		}
 	}
 }

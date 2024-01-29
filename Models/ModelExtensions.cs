@@ -23,7 +23,7 @@ public static class ModelExtensions
 			LastName = createAuthorDTO.LastName
 		};
 	}
-	public static Borrower ToBorrower(this  CreateBorrowerDTO createBorrowerDTO)
+	public static Borrower ToBorrower(this CreateBorrowerDTO createBorrowerDTO)
 	{
 		return new Borrower
 		{
@@ -35,7 +35,8 @@ public static class ModelExtensions
 			PhoneNumber = createBorrowerDTO.PhoneNumber,
 			Email = createBorrowerDTO.Email
 		};
-	}
+	}	
+	
 	public static List<AuthorDTO> ToAuthorDTOs(this IEnumerable<Author> authors)
 	{
 		var authorDTOs = new List<AuthorDTO>();
@@ -69,23 +70,26 @@ public static class ModelExtensions
 		}
 		return bookDTOs;
 	}
-	public static List<BorrowedBookDTO> ToBorrowBookDTOs(this IEnumerable<BorrowedBook> borrowedBooks)
+	public static List<BookLoanDTO> ToBookLoanDTOs(this IEnumerable<BookLoan> bookLoans)
 	{
-		var borrowedBookDTOs = new List<BorrowedBookDTO>();
+		var bookLoanDTOs = new List<BookLoanDTO>();
 
-		foreach (var borrowedBook in borrowedBooks)
+		foreach (var bookLoan in bookLoans)
 		{
-			var borrowedBookDTO = new BorrowedBookDTO()
+			var bookLoanDTO = new BookLoanDTO()
 			{
-				BorrowedBookId = borrowedBook.BorrowedBookId,
-				BorrowingDate = borrowedBook.BorrowingDate,
-				ReturnDate = borrowedBook.ReturnDate,
-				BorrowerRating = borrowedBook.BorrowerRating
+				BookLoanId = bookLoan.BookLoanId,
+				BookId = bookLoan.Book.BookId,
+				BorrowerId = bookLoan.Borrower.BorrowerId,
+				BookTitle = bookLoan.Book.Title,
+				BorrowerFullName = bookLoan.Borrower.FirstName 
+					+ " " + bookLoan.Borrower.LastName,
+				BorrowingDate = bookLoan.BorrowingDate,
+				ReturnDate = bookLoan.ReturnDate,
+				BorrowerRating = bookLoan.BorrowerRating
 			};
-			borrowedBookDTOs.Add(borrowedBookDTO);
+			bookLoanDTOs.Add(bookLoanDTO);
 		}
-		return borrowedBookDTOs;
+		return bookLoanDTOs;
 	}
-
-
 }

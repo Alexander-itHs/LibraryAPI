@@ -19,7 +19,7 @@ public class BookAuthorController : ControllerBase
 	[HttpPost]
 	public async Task<ActionResult<CreateBookAuthorDTO>> PostBookAuthor(CreateBookAuthorDTO createBookAuthorDTO)
 	{
-		var book = await _context.Books.FindAsync(createBookAuthorDTO.BookId);
+		var book = await _context.Book.FindAsync(createBookAuthorDTO.BookId);
 
             if (book == null)
             {

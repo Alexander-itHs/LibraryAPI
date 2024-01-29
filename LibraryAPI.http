@@ -28,6 +28,16 @@ Content-Type: application/json
 
 ###
 
+POST {{LibraryAPI_HostAddress}}/api/authors
+Content-Type: application/json
+
+{
+  "firstName": "Fyodor",
+  "lastName": "Dostoevsky"
+}
+
+###
+
 POST {{LibraryAPI_HostAddress}}/api/books
 Content-Type: application/json
 
@@ -51,6 +61,54 @@ Content-Type: application/json
 
 ###
 
+POST {{LibraryAPI_HostAddress}}/api/books
+Content-Type: application/json
+
+{
+  "title": "Crime and Punishment",
+  "isbn": "9780192833839",
+  "publicationDate": "1866-12-01",
+  "copies": 3
+}
+
+###
+POST {{LibraryAPI_HostAddress}}/api/bookauthor
+Content-Type: application/json
+
+{
+  "bookId": 1,
+  "authorId": 1
+}
+
+###
+POST {{LibraryAPI_HostAddress}}/api/bookauthor
+Content-Type: application/json
+
+{
+  "bookId": 2,
+  "authorId": 2
+}
+
+###
+POST {{LibraryAPI_HostAddress}}/api/bookauthor
+Content-Type: application/json
+
+{
+  "bookId": 2,
+  "authorId": 3
+}
+
+###
+POST {{LibraryAPI_HostAddress}}/api/bookauthor
+Content-Type: application/json
+
+{
+  "bookId": 3,
+  "authorId": 4
+}
+
+###
+
 GET {{LibraryAPI_HostAddress}}/api/books
 
 ###
@@ -58,33 +116,7 @@ GET {{LibraryAPI_HostAddress}}/api/books
 GET {{LibraryAPI_HostAddress}}/api/authors
 
 ###
-POST {{LibraryAPI_HostAddress}}/api/bookauthor
-Content-Type: application/json
 
-{
-  "bookId": 9,
-  "authorId": 4
-}
-
-###
-POST {{LibraryAPI_HostAddress}}/api/bookauthor
-Content-Type: application/json
-
-{
-  "bookId": 10,
-  "authorId": 6
-}
-
-###
-POST {{LibraryAPI_HostAddress}}/api/bookauthor
-Content-Type: application/json
-
-{
-  "bookId": 10,
-  "authorId": 5
-}
-
-###
 
 POST {{LibraryAPI_HostAddress}}/api/borrowers
 Content-Type: application/json
@@ -101,17 +133,30 @@ Content-Type: application/json
 
 ###
 
+POST {{LibraryAPI_HostAddress}}/api/borrowers
+Content-Type: application/json
+
+{
+  "firstName": "Alex",
+  "lastName": "H",
+  "streetAddress": "KG",
+  "city": "Upp",
+  "country": "S",
+  "phoneNumber": "070",
+  "email": "alex.h@it.com"
+}
+
+###
+
 GET {{LibraryAPI_HostAddress}}/api/books
 
 ###
 
-
-GET {{LibraryAPI_HostAddress}}/api/books/9
+GET {{LibraryAPI_HostAddress}}/api/books/3
 
 ###
 
-
-GET {{LibraryAPI_HostAddress}}/api/books/search/Harry 
+GET {{LibraryAPI_HostAddress}}/api/books/search/Harry
 
 ###
 
@@ -119,48 +164,62 @@ GET {{LibraryAPI_HostAddress}}/api/borrowers
 
 ###
 
-POST {{LibraryAPI_HostAddress}}/api/borrowedbooks/borrowbook
+POST {{LibraryAPI_HostAddress}}/api/bookloans/borrowbook
 Content-Type: application/json
 
 {
-  "bookId": 9,
-  "borrowerId": 3
+  "bookId": 3,
+  "borrowerId": 2
   
 }
 
 ###
 
-
-PATCH {{LibraryAPI_HostAddress}}/api/borrowedbooks/returnbook
+PATCH {{LibraryAPI_HostAddress}}/api/bookloans/returnbook
 Content-Type: application/json
 
 {
-  "bookId": 1,
-  "borrowerId": 1,
+  "bookId": 3,
+  "borrowerId": 2,
   "borrowerRating": 5
 }
 
 ###
 
 
-DELETE {{LibraryAPI_HostAddress}}/api/borrowers/0
+DELETE {{LibraryAPI_HostAddress}}/api/borrowers/1
 
 ###
 
 
-DELETE {{LibraryAPI_HostAddress}}/api/books/8
+DELETE {{LibraryAPI_HostAddress}}/api/books/1
 
 ###
 
-DELETE {{LibraryAPI_HostAddress}}/api/authors/0
+DELETE {{LibraryAPI_HostAddress}}/api/authors/1
+
+###
+
+GET {{LibraryAPI_HostAddress}}/api/borrowers
+
+###
+
+GET {{LibraryAPI_HostAddress}}/api/books
+
+###
+
+GET {{LibraryAPI_HostAddress}}/api/authors
 
 ###
 
 
+GET {{LibraryAPI_HostAddress}}/api/bookloans
+
+###
 
 
+GET {{LibraryAPI_HostAddress}}/api/authors/1
 
-
-
+###
 
 

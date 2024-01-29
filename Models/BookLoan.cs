@@ -1,8 +1,10 @@
-﻿namespace LibraryAPI.Models;
+﻿using LibraryAPI.DTOs;
 
-public class BorrowedBook
+namespace LibraryAPI.Models;
+
+public class BookLoan
 {
-	public int BorrowedBookId { get; set; }
+	public int BookLoanId { get; set; }
 	public required Borrower Borrower { get; set; }
 	public required Book Book { get; set; }
 	public DateTime BorrowingDate { get; set; }

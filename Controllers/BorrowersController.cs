@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryAPI.Models;
 using LibraryAPI.DTOs;
-using LibraryAPI.Migrations;
 
 namespace LibraryAPI.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     [ApiController]
     public class BorrowersController : ControllerBase
     {
@@ -26,7 +20,11 @@ namespace LibraryAPI.Controllers
         [HttpGet]
 		public async Task<ActionResult<IEnumerable<GetBorrowerDTO>>> GetBorrowers()
         {
-            var borrowers = await _context.Borrower.Include(b => b.Books).ToListAsync();
+            var borrowers = await _context.Borrower
+                .Include(b => b.BookLoans)
+                .ThenInclude(b => b.Book)
+                .ThenInclude(b => b.Authors)
+                .ToListAsync();
 
             List<GetBorrowerDTO> borrowerDTOsToReturn = new List<GetBorrowerDTO>();
 
@@ -42,16 +40,12 @@ namespace LibraryAPI.Controllers
                     Country = borrower.Country,
                     PhoneNumber = borrower.PhoneNumber,
                     Email = borrower.Email,
-                    BorrowedBook = borrower.Books.ToBorrowBookDTOs()
+                    BookLoans = borrower.BookLoans.ToBookLoanDTOs()
                 };
                 borrowerDTOsToReturn.Add(getBorrowerDTO);
             }
             return borrowerDTOsToReturn;
         }
-		//public async Task<ActionResult<IEnumerable<Borrower>>> GetBorrower()
-		//{
-		//    return await _context.Borrower.ToListAsync();
-		//}
 
 
 		// POST: api/Borrowers
@@ -63,7 +57,7 @@ namespace LibraryAPI.Controllers
             _context.Borrower.Add(borrower);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBorrower", new { id = borrower.BorrowerId }, borrower);
+            return CreatedAtAction("GetBorrowers", new { id = borrower.BorrowerId }, borrower);
         }
 
         // DELETE: api/Borrowers/5

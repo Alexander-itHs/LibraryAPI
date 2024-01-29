@@ -13,7 +13,7 @@ builder.Services.AddControllers().AddJsonOptions(opt =>
 
 builder.Services.AddDbContext<LibraryContext>(opt =>
 {
-	var DbCon = builder.Configuration.GetConnectionString("DbCon");
+	var DbCon = builder.Configuration.GetConnectionString("TestDbCon");
 	opt.UseSqlServer(DbCon);
 	opt.LogTo(l => Debug.WriteLine(l)).EnableSensitiveDataLogging(true);
 });

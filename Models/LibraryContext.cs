@@ -9,11 +9,9 @@ public class LibraryContext : DbContext
 		: base(options)
 	{
 	}
-	public DbSet<Book> Books { get; set; } = null!;
+	public DbSet<Book> Book { get; set; } = null!;
 	public DbSet<Author> Author { get; set; } = default!;
-
 	public DbSet<Borrower> Borrower { get; set; } = default!;
-
-	public DbSet<BorrowedBook> BorrowedBook { get; set; } = default!;
+	public DbSet<BookLoan> BookLoan { get; set; } = default!;
 
 }

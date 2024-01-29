@@ -12,6 +12,6 @@ namespace LibraryAPI.DTOs
 		public string Country { get; set; } = null!;
 		public string PhoneNumber { get; set; } = null!;
 		public string Email { get; set; } = null!;
-		public List<BorrowedBookDTO> BorrowedBook { get; set; } = new();
+		public List<BookLoanDTO> BookLoans { get; set; } = new();
 	}
 }
